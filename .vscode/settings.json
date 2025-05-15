@@ -1,0 +1,14 @@
+{
+  "exportall.config.relExclusion": [
+    "/src/features/crypto/components/CryptoList.tsx"
+  ],
+  "exportall.config.folderListener": [
+    "/src/shared/api",
+    "/src/shared",
+    "/src",
+    "/src/features",
+    "/src/features/crypto",
+    "/src/shared/store",
+    "/src/features/crypto/use-cases"
+  ]
+}
