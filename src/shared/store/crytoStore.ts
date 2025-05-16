@@ -9,14 +9,16 @@ import {
 } from '../../features';
 
 const INITIAL_STATE: CryptoWithoutActions = {
+  nameFiltered: '',
   isFirstRenderOnHome: true,
   isLoading: false,
   infoDataNet: {
     start: '0',
-    limit: '20',
+    limit: '10',
   },
   metaDataNet: undefined,
   cryptoList: [],
+  cryptoListWithFilter: [],
   singleCrypto: null,
 };
 
@@ -30,7 +32,13 @@ export const useCryptoState = create<CryptoState>((set, get) => ({
     set({isLoading: val});
   },
   getCryptoList: async (params: CryptoNetParams) => {
-    const {setIsLoading, infoDataNet} = get();
+    const {
+      setIsLoading,
+      infoDataNet,
+      cryptoList,
+      setIsFirstRenderOnHome,
+      setCryptoListWithFilter,
+    } = get();
     setIsLoading(true);
     try {
       const apiService = new CryptoServices();
@@ -42,7 +50,9 @@ export const useCryptoState = create<CryptoState>((set, get) => ({
       const {data, info} = res;
 
       set({
-        cryptoList: data.map(crypto => CryptoUi.fromNetModel(crypto)),
+        cryptoList: !params.start
+          ? data.map(CryptoUi.fromNetModel)
+          : [...cryptoList, ...data.map(CryptoUi.fromNetModel)],
         metaDataNet: {
           coins_num: info.coins_num,
           time: info.time,
@@ -56,10 +66,14 @@ export const useCryptoState = create<CryptoState>((set, get) => ({
             parseInt(params.limit ?? String(infoDataNet.limit), 10),
         ),
       });
+      setCryptoListWithFilter();
     } catch (error) {
       console.error('Error fetching crypto list:', error);
     } finally {
       setIsLoading(false);
+      if (setIsFirstRenderOnHome) {
+        setIsFirstRenderOnHome(false);
+      }
     }
   },
   async getSingleCrypto(id: string) {
@@ -68,7 +82,7 @@ export const useCryptoState = create<CryptoState>((set, get) => ({
     try {
       const apiService = new CryptoServices();
       const res = await new GetCryptoById(apiService).execute(id);
-      const crypto = CryptoUi.fromNetModelById(res.data[0]);
+      const crypto = CryptoUi.fromNetModelById(res[0]);
       set({singleCrypto: crypto});
     } catch (error) {
       console.error('Error fetching single crypto:', error);
@@ -78,4 +92,20 @@ export const useCryptoState = create<CryptoState>((set, get) => ({
     }
   },
   clearSingleCrypto: () => set({singleCrypto: null}),
+  setFilterName: (name: string) => set({nameFiltered: name}),
+  setCryptoListWithFilter: () => {
+    const {cryptoList, nameFiltered} = get();
+
+    if (!nameFiltered || nameFiltered.length === 0) {
+      set({cryptoListWithFilter: cryptoList});
+      return;
+    } else {
+      //insensitive search and filter
+      const filteredList = cryptoList.filter(crypto =>
+        crypto.name.toLowerCase().includes(nameFiltered.toLowerCase()),
+      );
+      set({cryptoListWithFilter: filteredList});
+      return;
+    }
+  },
 }));

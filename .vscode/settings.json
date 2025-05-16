@@ -9,6 +9,16 @@
     "/src/features",
     "/src/features/crypto",
     "/src/shared/store",
-    "/src/features/crypto/use-cases"
+    "/src/features/crypto/use-cases",
+    "/src/features/crypto/screens",
+    "/src/shared/assets",
+    "/src/shared/utils",
+    "/src/shared/components",
+    "/src/features/crypto/hooks",
+    "/src/shared/hooks",
+    "/src/shared/interfaces",
+    "/src/shared/components/inputs",
+    "/src/shared/utils/const",
+    "/src/features/crypto/components"
   ]
 }

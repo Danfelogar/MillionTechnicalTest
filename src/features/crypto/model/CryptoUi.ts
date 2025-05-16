@@ -22,19 +22,19 @@ export class CryptoUi {
   ) {}
 
   //input 0.257800 output $0.26
-  static formattedPriceUSD(priceUsd: string): string {
+  private static formattedPriceUSD(priceUsd: string): string {
     const price = parseFloat(priceUsd);
     return isNaN(price) ? 'Unable price' : `$${price.toFixed(2)}`;
   }
 
   //input 0.257800 output $0.000002 BTC
-  static formattedPriceBTC(priceBtc: string): string {
+  private static formattedPriceBTC(priceBtc: string): string {
     const price = parseFloat(priceBtc);
     return isNaN(price) ? 'Unable price' : `${price.toFixed(8)} BTC`;
   }
 
   //input -3.00 or 45.89 output -3.00% or 45.89%
-  static formattedPercentChange(percentChange: string): string {
+  private static formattedPercentChange(percentChange: string): string {
     const percent = parseFloat(percentChange);
     return isNaN(percent)
       ? 'Unable percent'
@@ -98,6 +98,10 @@ export class CryptoUi {
     return CryptoUi.formattedPercentChange(this.percentChange24h);
   }
 
+  get getIsPercentChange24hIsNegative(): boolean {
+    return parseFloat(this.percentChange24h) < 0;
+  }
+
   get formattedPercentChange1h(): string {
     return CryptoUi.formattedPercentChange(this.percentChange1h);
   }
@@ -111,10 +115,10 @@ export class CryptoUi {
   }
 
   get formattedVolume24(): string {
-    return CryptoUi.formattedPriceUSD(this.volume24.toString());
+    return CryptoUi.formattedPriceUSD(this.volume24?.toString());
   }
 
   get formattedVolume24a(): string {
-    return CryptoUi.formattedPriceUSD(this.volume24a.toString());
+    return CryptoUi.formattedPriceUSD(this.volume24a?.toString());
   }
 }

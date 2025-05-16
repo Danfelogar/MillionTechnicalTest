@@ -2,6 +2,7 @@ import {CryptoNetParams, CryptoUi} from '../../../features';
 
 export interface CryptoState {
   //state
+  nameFiltered: string;
   isFirstRenderOnHome: boolean;
   isLoading: boolean;
   infoDataNet: CryptoNetParams;
@@ -11,6 +12,7 @@ export interface CryptoState {
   } | null;
   maxNumOfPages?: number;
   cryptoList: CryptoUi[];
+  cryptoListWithFilter: CryptoUi[];
   singleCrypto?: CryptoUi | null;
   //action
   setIsFirstRenderOnHome: (isFirstRenderOnHome?: boolean) => void;
@@ -18,6 +20,8 @@ export interface CryptoState {
   getCryptoList: (params: CryptoNetParams) => void;
   getSingleCrypto: (id: string) => void;
   clearSingleCrypto: () => void;
+  setFilterName: (name: string) => void;
+  setCryptoListWithFilter: () => void;
 }
 
 export interface CryptoWithoutActions
@@ -28,4 +32,6 @@ export interface CryptoWithoutActions
     | 'getCryptoList'
     | 'getSingleCrypto'
     | 'clearSingleCrypto'
+    | 'setFilterName'
+    | 'setCryptoListWithFilter'
   > {}

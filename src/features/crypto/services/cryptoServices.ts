@@ -1,5 +1,5 @@
 import {cryptoApi} from '../../../shared';
-import {CryptoByIdRes, CryptoNetParams, CryptoNetRes} from '../model';
+import {CryptoByIdNet, CryptoNetParams, CryptoNetRes} from '../model';
 
 export class CryptoServices {
   async getCryptos({
@@ -9,8 +9,7 @@ export class CryptoServices {
     const queryParams = new URLSearchParams();
 
     queryParams.append('start', start);
-    queryParams.append('start', limit);
-
+    queryParams.append('limit', limit);
     try {
       const res = await cryptoApi.get<CryptoNetRes>(`/tickers/?${queryParams}`);
       return res.data;
@@ -20,9 +19,9 @@ export class CryptoServices {
     }
   }
 
-  async getCryptoById(id: string): Promise<CryptoByIdRes> {
+  async getCryptoById(id: string): Promise<CryptoByIdNet[]> {
     try {
-      const res = await cryptoApi.get<CryptoByIdRes>(`/ticker/?id=${id}`);
+      const res = await cryptoApi.get<CryptoByIdNet[]>(`/ticker/?id=${id}`);
       return res.data;
     } catch (error) {
       console.error('getCryptos issues:', {error});
