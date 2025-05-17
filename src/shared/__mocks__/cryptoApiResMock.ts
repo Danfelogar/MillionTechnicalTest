@@ -1,4 +1,4 @@
-import {CryptoByIdNet, CryptoNet, CryptoResInfo} from '../../../features';
+import {CryptoByIdNet, CryptoNet, CryptoResInfo} from '../../features';
 
 export const CRYPTO_LIST_MOCK: CryptoNet[] = [
   {

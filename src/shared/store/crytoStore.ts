@@ -68,6 +68,15 @@ export const useCryptoState = create<CryptoState>((set, get) => ({
       });
       setCryptoListWithFilter();
     } catch (error) {
+      set({
+        cryptoList: [],
+        metaDataNet: undefined,
+        infoDataNet: {
+          start: '0',
+          limit: '10',
+        },
+        maxNumOfPages: 0,
+      });
       console.error('Error fetching crypto list:', error);
     } finally {
       setIsLoading(false);

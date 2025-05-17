@@ -1,12 +1,12 @@
 import {create} from 'zustand';
 import {type StateCreator} from 'zustand';
-import {CryptoState, CryptoWithoutActions} from '../../store';
+import {CryptoState, CryptoWithoutActions} from '../store';
 import {
   CryptoByIdNet,
   CryptoNetParams,
   CryptoNetRes,
   CryptoUi,
-} from '../../../features';
+} from '../../features';
 import {MockCryptoApiRes} from './cryptoApiResMock';
 
 export const INITIAL_STATE_MOCK: CryptoWithoutActions = {
@@ -71,6 +71,15 @@ export const useCryptoStateTest: StateCreator<CryptoState> = (set, get) => ({
       });
       setCryptoListWithFilter();
     } catch (error) {
+      set({
+        cryptoList: [],
+        metaDataNet: undefined,
+        infoDataNet: {
+          start: '0',
+          limit: '10',
+        },
+        maxNumOfPages: 0,
+      });
       console.error('Error fetching crypto list:', error);
     } finally {
       setIsLoading(false);
@@ -89,8 +98,8 @@ export const useCryptoStateTest: StateCreator<CryptoState> = (set, get) => ({
       const crypto = CryptoUi.fromNetModelById(data[0]);
       set({singleCrypto: crypto});
     } catch (error) {
-      console.error('Error fetching single crypto:', error);
       clearSingleCrypto();
+      console.error('Error fetching single crypto:', error);
     } finally {
       setIsLoading(false);
     }

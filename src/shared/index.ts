@@ -1,4 +1,3 @@
-export * from './__test__';
 export * from './api';
 export * from './assets';
 export * from './components';
