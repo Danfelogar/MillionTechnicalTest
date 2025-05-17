@@ -24,13 +24,28 @@ const INITIAL_STATE: CryptoWithoutActions = {
 
 export const useCryptoState = create<CryptoState>((set, get) => ({
   ...INITIAL_STATE,
-  //actions
+
+  /**
+   * Sets the flag indicating whether the home screen is being rendered for the first time.
+   * @param val Optional boolean value; defaults to false if undefined.
+   */
   setIsFirstRenderOnHome: (val?: boolean) => {
     set({isFirstRenderOnHome: val ?? false});
   },
+
+  /**
+   * Toggles the loading state of the crypto data.
+   * @param val Boolean indicating loading status.
+   */
   setIsLoading: (val: boolean) => {
     set({isLoading: val});
   },
+
+  /**
+   * Fetches a list of cryptocurrencies from the API based on provided parameters.
+   * Updates the crypto list state, pagination info, and applies any active filters.
+   * @param params Object with 'start' and 'limit' to control pagination.
+   */
   getCryptoList: async (params: CryptoNetParams) => {
     const {
       setIsLoading,
@@ -39,7 +54,9 @@ export const useCryptoState = create<CryptoState>((set, get) => ({
       setIsFirstRenderOnHome,
       setCryptoListWithFilter,
     } = get();
+
     setIsLoading(true);
+
     try {
       const apiService = new CryptoServices();
       const res = await new GetCryptoList(apiService).execute({
@@ -66,8 +83,10 @@ export const useCryptoState = create<CryptoState>((set, get) => ({
             parseInt(params.limit ?? String(infoDataNet.limit), 10),
         ),
       });
+
       setCryptoListWithFilter();
     } catch (error) {
+      // Reset state in case of error
       set({
         cryptoList: [],
         metaDataNet: undefined,
@@ -85,6 +104,12 @@ export const useCryptoState = create<CryptoState>((set, get) => ({
       }
     }
   },
+
+  /**
+   * Fetches detailed data of a single cryptocurrency by its ID.
+   * Sets the singleCrypto state or clears it on error.
+   * @param id The unique identifier of the cryptocurrency.
+   */
   async getSingleCrypto(id: string) {
     const {setIsLoading, clearSingleCrypto} = get();
     setIsLoading(true);
@@ -100,8 +125,23 @@ export const useCryptoState = create<CryptoState>((set, get) => ({
       setIsLoading(false);
     }
   },
+
+  /**
+   * Clears the single cryptocurrency state.
+   */
   clearSingleCrypto: () => set({singleCrypto: null}),
+
+  /**
+   * Sets the name filter string used to filter the crypto list.
+   * @param name Filter string to match cryptocurrency names.
+   */
   setFilterName: (name: string) => set({nameFiltered: name}),
+
+  /**
+   * Filters the cryptoList by the current nameFiltered string.
+   * The filter is case-insensitive.
+   * Updates the cryptoListWithFilter state accordingly.
+   */
   setCryptoListWithFilter: () => {
     const {cryptoList, nameFiltered} = get();
 
@@ -109,7 +149,7 @@ export const useCryptoState = create<CryptoState>((set, get) => ({
       set({cryptoListWithFilter: cryptoList});
       return;
     } else {
-      //insensitive search and filter
+      // Case-insensitive filtering of crypto list by name
       const filteredList = cryptoList.filter(crypto =>
         crypto.name.toLowerCase().includes(nameFiltered.toLowerCase()),
       );

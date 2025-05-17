@@ -12,16 +12,24 @@ interface Props {
   id: string;
 }
 
+/**
+ * Custom hook to manage the state and logic for a single cryptocurrency detail.
+ *
+ * @param id - The unique identifier of the cryptocurrency to fetch.
+ * @returns An object containing loading state, crypto details, config, and actions.
+ */
 export const useSingleCrypto = ({id}: Props) => {
   const {
-    //state
+    // State from global crypto store
     isLoading,
     singleCrypto,
-    //actions
+    // Actions from global crypto store
     getSingleCrypto,
     clearSingleCrypto,
   } = useCryptoState();
 
+  // Configuration for displaying info details of the crypto,
+  // with optional formatting functions.
   const infoDetailsConfig: InfoDetailConfig[] = [
     {title: 'Symbol', key: 'symbol'},
     {title: 'Name ID', key: 'nameid'},
@@ -39,24 +47,24 @@ export const useSingleCrypto = ({id}: Props) => {
     {title: 'msupply', key: 'msupply'},
   ];
 
+  // Fetch crypto details when id changes; clear details on unmount
   useEffect(() => {
     if (id) {
       getSingleCrypto(id);
     }
     return () => {
-      // Cleanup function
       clearSingleCrypto();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return {
-    //state
+    // State
     isLoading,
     singleCrypto,
     infoDetailsConfig,
-    //methods
-    //actions
+    // Methods (none currently)
+    // Actions
     clearSingleCrypto,
   };
 };

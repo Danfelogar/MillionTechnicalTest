@@ -12,6 +12,13 @@ import {
 import {useCryptos} from '../hooks';
 import {CryptoListComponent} from '../components';
 
+/**
+ * HomeScreen component that displays the list of cryptocurrencies with a filter input.
+ *
+ * Renders a logo, a search input for filtering by name, and the crypto list or a loading image.
+ *
+ * @returns JSX.Element rendering the home screen
+ */
 export const HomeScreen = () => {
   const {
     container,
@@ -21,12 +28,14 @@ export const HomeScreen = () => {
     loadingImg,
     contenteList,
   } = styles;
+
+  // Hook providing crypto list, form control, and clear filter action
   const {
-    //state
+    // State variables
     cryptoListWithFilter,
-    //methods
+    // Methods
     control,
-    //actions
+    // Actions
     clearFilterByName,
   } = useCryptos();
 
@@ -34,6 +43,7 @@ export const HomeScreen = () => {
     <BrandWrapper>
       <View style={container}>
         <View style={scrollWrapper}>
+          {/* Logo image */}
           <CustomImage
             isLocalUrl
             src={AppImages.logoTitle}
@@ -41,6 +51,8 @@ export const HomeScreen = () => {
               ...imgFullLogo,
             }}
           />
+
+          {/* Input field for filtering cryptos by name */}
           <InputGeneric
             control={control}
             borderColor={'#00000061'}
@@ -59,6 +71,8 @@ export const HomeScreen = () => {
             inputColor={'#000000'}
             autoCorrect={false}
           />
+
+          {/* Content area to show loading or crypto list */}
           <View
             style={{
               ...contenteList,

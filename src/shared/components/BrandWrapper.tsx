@@ -7,6 +7,17 @@ import {CustomImage} from './CustomImage';
 import {AppImages} from '../assets';
 import {isIOS, widthFullScreen} from '../utils';
 
+/**
+ * BrandWrapper component
+ *
+ * This component wraps its children within a styled container featuring
+ * a header with a logo and an optional Bitcoin icon.
+ * The layout and visibility of certain elements adjust based on the `isDetails` prop.
+ *
+ * @param children - ReactNode elements to be wrapped inside this component
+ * @param isDetails - Flag to adjust layout and visibility for detailed views (default: false)
+ * @returns JSX.Element rendering the branded wrapper layout
+ */
 export const BrandWrapper = ({
   children,
   isDetails = false,

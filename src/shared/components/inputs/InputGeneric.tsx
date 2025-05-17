@@ -2,6 +2,15 @@ import {Controller, FieldValues, Path} from 'react-hook-form';
 import {View, Text, TextInput, StyleSheet} from 'react-native';
 import {CustomInputGeneric} from '../../interfaces';
 
+/**
+ * Generic input component controlled by react-hook-form.
+ *
+ * Supports customizable styling, icons, multiline input, secure text entry, and error display.
+ *
+ * @template T - Form field values type
+ * @param props - Properties including form control, input options, and styles
+ * @returns JSX.Element rendering the controlled input field
+ */
 export function InputGeneric<T extends FieldValues>({
   keyboardType,
   borderColor,
@@ -22,6 +31,7 @@ export function InputGeneric<T extends FieldValues>({
 }: CustomInputGeneric<T>) {
   const {WrapperStandard, contentInput, contentInputGeneric, helperText} =
     styles;
+
   return (
     <Controller
       shouldUnregister

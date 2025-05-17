@@ -20,6 +20,13 @@ import {useSingleCrypto} from '../hooks';
 
 interface Props extends StackScreenProps<RootStackMainParams, 'Details'> {}
 
+/**
+ * Screen component to display detailed information about a single cryptocurrency.
+ *
+ * @param route - Navigation route object containing parameters, including the crypto id.
+ * @param navigation - Navigation object to handle navigation actions.
+ * @returns JSX.Element rendering the details screen.
+ */
 export const DetailsScreen = ({route, navigation}: Props) => {
   const {
     container,
@@ -30,19 +37,24 @@ export const DetailsScreen = ({route, navigation}: Props) => {
     textName,
     textDescription,
   } = styles;
+
+  // Extract the cryptocurrency ID from route parameters
   const {id} = route.params;
+
+  // Hook to fetch and manage the single crypto state and actions
   const {
-    //state
+    // State variables
     isLoading,
     singleCrypto,
     infoDetailsConfig,
-    //methods
-    //actions
+    // Methods (none currently)
+    // Actions
     clearSingleCrypto,
   } = useSingleCrypto({id});
 
   return (
     <BrandWrapper isDetails>
+      {/* Show loading indicator while data is being fetched */}
       {isLoading && (
         <View style={{...container}}>
           <ActivityIndicator
@@ -52,6 +64,8 @@ export const DetailsScreen = ({route, navigation}: Props) => {
           />
         </View>
       )}
+
+      {/* Show crypto details once loaded */}
       {singleCrypto && (
         <View style={{...container}}>
           <ScrollView
@@ -79,6 +93,7 @@ export const DetailsScreen = ({route, navigation}: Props) => {
                   </View>
                 }
               />
+
               <CustomImage
                 isLocalUrl={false}
                 src={
@@ -89,6 +104,8 @@ export const DetailsScreen = ({route, navigation}: Props) => {
 
               <Text style={{...textName}}>{singleCrypto?.name}</Text>
               <Text style={{...textDescription}}>Informations</Text>
+
+              {/* Map over crypto info details configuration and render each detail */}
               {infoDetailsConfig.map(({title, key, format}) => (
                 <InfoDetail
                   key={key}
