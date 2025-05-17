@@ -26,6 +26,7 @@ export const CryptoListComponent: FC<Props> = ({clearFilterByName}) => {
 
   return (
     <Animated.FlatList
+      testID="home-screen"
       onScroll={Animated.event([{nativeEvent: {contentOffset: {y: scrollY}}}], {
         useNativeDriver: isIOS(),
       })}

@@ -19,6 +19,9 @@
     "/src/shared/interfaces",
     "/src/shared/components/inputs",
     "/src/shared/utils/const",
-    "/src/features/crypto/components"
+    "/src/features/crypto/components",
+    "/src/shared/test/mocks",
+    "/src/shared/test",
+    "/src/features/crypto/use-cases/__test__"
   ]
 }
