@@ -1,14 +1,15 @@
 import {create} from 'zustand';
-import {CryptoState, CryptoWithoutActions} from './interface';
+import {type StateCreator} from 'zustand';
+import {CryptoState, CryptoWithoutActions} from '../store';
 import {
+  CryptoByIdNet,
   CryptoNetParams,
-  CryptoServices,
+  CryptoNetRes,
   CryptoUi,
-  GetCryptoById,
-  GetCryptoList,
 } from '../../features';
+import {MockCryptoApiRes} from './cryptoApiResMock';
 
-const INITIAL_STATE: CryptoWithoutActions = {
+export const INITIAL_STATE_MOCK: CryptoWithoutActions = {
   nameFiltered: '',
   isFirstRenderOnHome: true,
   isLoading: false,
@@ -22,8 +23,8 @@ const INITIAL_STATE: CryptoWithoutActions = {
   singleCrypto: null,
 };
 
-export const useCryptoState = create<CryptoState>((set, get) => ({
-  ...INITIAL_STATE,
+export const useCryptoStateTest: StateCreator<CryptoState> = (set, get) => ({
+  ...INITIAL_STATE_MOCK,
   //actions
   setIsFirstRenderOnHome: (val?: boolean) => {
     set({isFirstRenderOnHome: val ?? false});
@@ -41,18 +42,20 @@ export const useCryptoState = create<CryptoState>((set, get) => ({
     } = get();
     setIsLoading(true);
     try {
-      const apiService = new CryptoServices();
-      const res = await new GetCryptoList(apiService).execute({
-        start: params.start,
-        limit: params.limit,
-      });
-
-      const {data, info} = res;
+      const query = new URLSearchParams(
+        Object.fromEntries(
+          Object.entries(params).map(([key, value]) => [key, String(value)]),
+        ),
+      );
+      const {data} = await MockCryptoApiRes.get<CryptoNetRes>(
+        `/tickers/?${query}`,
+      );
+      const {data: cryptoData, info} = data;
 
       set({
         cryptoList: !params.start
-          ? data.map(CryptoUi.fromNetModel)
-          : [...cryptoList, ...data.map(CryptoUi.fromNetModel)],
+          ? cryptoData.map(CryptoUi.fromNetModel)
+          : [...cryptoList, ...cryptoData.map(CryptoUi.fromNetModel)],
         metaDataNet: {
           coins_num: info.coins_num,
           time: info.time,
@@ -89,13 +92,14 @@ export const useCryptoState = create<CryptoState>((set, get) => ({
     const {setIsLoading, clearSingleCrypto} = get();
     setIsLoading(true);
     try {
-      const apiService = new CryptoServices();
-      const res = await new GetCryptoById(apiService).execute(id);
-      const crypto = CryptoUi.fromNetModelById(res[0]);
+      const {data} = await MockCryptoApiRes.get<CryptoByIdNet[]>(
+        `/ticker/?id=${id}`,
+      );
+      const crypto = CryptoUi.fromNetModelById(data[0]);
       set({singleCrypto: crypto});
     } catch (error) {
-      console.error('Error fetching single crypto:', error);
       clearSingleCrypto();
+      console.error('Error fetching single crypto:', error);
     } finally {
       setIsLoading(false);
     }
@@ -117,4 +121,6 @@ export const useCryptoState = create<CryptoState>((set, get) => ({
       return;
     }
   },
-}));
+});
+
+export const useCryptoStoreMock = create<CryptoState>(useCryptoStateTest);
