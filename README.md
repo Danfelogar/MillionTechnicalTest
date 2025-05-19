@@ -39,6 +39,11 @@ npm run ios
 ```bash
 npm run android
 ```
+7. If you want to run unit tests, use this command (optional):
+```bash
+npm run test
+```
+
 If you have any problem, these're my actual global versions:
 
 ```bash
@@ -199,3 +204,22 @@ npm run  android:clean
 | :------------------------------:| :-----------------------------------------:|
 |               Home              |  ![](src/shared/assets/imgs/screen1.png)   |
 |               Details           |  ![](src/shared/assets/imgs/screen2.png)   |
+
+
+## Unit Test Report
+
+```bash
+----------------------------|---------|----------|---------|---------
+File                        | % Stmts | % Branch | % Funcs | % Lines
+----------------------------|---------|----------|---------|---------
+All files                    |   43.58 |     5.38 |   28.78 |   43.52
+features/crypto/hooks       |   93.93 |       75 |      90 |   93.93
+features/crypto/services    |     100 |       50 |     100 |     100
+shared/hooks                |     100 |        0 |     100 |     100
+
+Test Suites: 7 passed, 7 total
+Tests:       28 passed, 28 total
+Snapshots:   0 total
+Time:        7.567 s
+Ran all test suites.
+```
