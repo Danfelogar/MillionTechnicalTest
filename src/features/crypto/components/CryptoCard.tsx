@@ -53,6 +53,7 @@ export const CryptoCard: FC<Props> = ({opacity, scale, item}) => {
       }}
       renderToHardwareTextureAndroid={true}>
       <TouchableOpacity
+        testID="stock-TouchableOpacity"
         activeOpacity={0.85}
         onPress={() => navigation.navigate('Details', {id: item.id.toString()})}
         style={wrapperCard}>
