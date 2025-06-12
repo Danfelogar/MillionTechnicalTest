@@ -1,4 +1,37 @@
-import {CryptoByIdNet, CryptoNet, CryptoResInfo} from '../../features';
+import {
+  CryptoByIdNet,
+  CryptoNet,
+  CryptoResInfo,
+  CryptoUi,
+} from '../../features';
+
+export const CRYPTO_ITEM_CARD_MOCK: CryptoUi = {
+  id: '1',
+  symbol: 'BTC',
+  name: 'Bitcoin',
+  nameid: 'bitcoin',
+  rank: 1,
+  priceUsd: '50000',
+  percentChange24h: '5',
+  percentChange1h: '0.5',
+  percentChange7d: '10',
+  priceBtc: '1',
+  market_cap_usd: '1000000000',
+  volume24: 10000000,
+  volume24a: 12000000,
+  csupply: '19000000',
+  tsupply: '21000000',
+  msupply: '21000000',
+  formattedPriceUSD: '$50,000',
+  formattedPriceBTC: '1 BTC',
+  formattedPercentChange24h: '+5%',
+  getIsPercentChange24hIsNegative: false,
+  formattedMarketCapUSD: '$1,000,000,000',
+  formattedVolume24: '$10,000,000',
+  formattedVolume24a: '$12,000,000',
+  formattedPercentChange1h: '+0.5%',
+  formattedPercentChange7d: '+10%',
+};
 
 export const CRYPTO_LIST_MOCK: CryptoNet[] = [
   {

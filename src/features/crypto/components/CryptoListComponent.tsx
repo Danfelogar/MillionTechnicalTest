@@ -30,6 +30,7 @@ export const CryptoListComponent: FC<Props> = ({clearFilterByName}) => {
 
   return (
     <Animated.FlatList
+      testID="crypto-list-component" // Test ID for testing purposes
       onScroll={Animated.event([{nativeEvent: {contentOffset: {y: scrollY}}}], {
         useNativeDriver: isIOS(), // Use native driver on iOS
       })}
@@ -82,7 +83,11 @@ export const CryptoListComponent: FC<Props> = ({clearFilterByName}) => {
         // Show loading indicator at the bottom when more items are being fetched
         shouldFetchMore && filterByName.length !== 0 ? (
           <View style={{padding: 20}}>
-            <ActivityIndicator size="large" color="#2196F3" />
+            <ActivityIndicator
+              testID="activity-indicator"
+              size="large"
+              color="#2196F3"
+            />
           </View>
         ) : null
       }

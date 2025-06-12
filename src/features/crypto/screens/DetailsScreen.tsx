@@ -58,6 +58,7 @@ export const DetailsScreen = ({route, navigation}: Props) => {
       {isLoading && (
         <View style={{...container}}>
           <ActivityIndicator
+            testID="loading-indicator-details-screen"
             size="large"
             color="#2196F3"
             style={{margin: 'auto'}}

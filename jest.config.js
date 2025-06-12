@@ -10,6 +10,8 @@ module.exports = {
     // '^zustand$': '<rootDir>/src/shared/__mocks__/zustand.ts', // Mock zustand(update: this is recommended by zustand but for this project we are not using it)
     '@react-native-vector-icons/evil-icons':
       '<rootDir>/src/shared/__mocks__/EvilIconsMock.tsx', // Mock EvilIcons
+    '@react-native-vector-icons/fontawesome6':
+      '<rootDir>/src/shared/__mocks__/FontAwesome6Mock.tsx', // Mock FontAwesome6
   },
   setupFiles: [
     '<rootDir>/src/shared/__mocks__/globalMocks.ts', //file with global mocks

@@ -29,7 +29,7 @@ export const BrandWrapper = ({
 
   return (
     <StandardWrapper>
-      <View style={{...container}}>
+      <View style={{...container}} testID="brand-wrapper">
         <Shadow
           distance={10}
           startColor={'#0000001A'}
